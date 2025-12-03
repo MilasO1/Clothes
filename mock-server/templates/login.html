@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<title>Auth server</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🛡️</text></svg>">
+		<style>
+		:root {
+			margin: 0px;
+			background: linear-gradient(to right, rgb(32, 37, 37), rgb(26, 87, 136));
+		}
+		h1 {
+			text-align: center;
+			padding: 18px;
+		}
+		button {
+			margin: 10px;
+			border-radius: 40px;
+			height: 70px;
+			min-width: 280px;
+			font-size: large;
+			text-align: center;
+			padding-inline: 20px;
+		}
+		</style>
+		<script>
+
+			async function login(userId) {
+				console.log("Login action")
+				try {
+					// Do not await, keep it async
+					const loginResult = await fetch(`./login`, {
+						method: "POST",
+						body: userId,
+						mode: "no-cors",
+					})
+
+					if(!loginResult.ok) {
+						console.error("Login KO")
+					}
+
+					window.location = await loginResult.text()
+				}
+				catch(excep) {
+					console.log("Login exception:", excep)
+				}
+			}
+
+			function createChild(type, parent) {
+				const elem = document.createElement(type)
+				parent.appendChild(elem)
+				return elem
+			}
+
+		</script>
+	</head>
+	<body>
+		<h1>👥 Login page</h1>
+	</body>
+	<script>
+		const presetUsers = ["Carlo", "Gg", "Thierry", "test-reader-writer-1"]
+
+		const body = document.body
+		for(const userId of presetUsers) {
+			console.log("Users", userId, body)
+			const button = createChild("button", body)
+
+			button.onclick = () => login(userId)
+			button.textContent = "Login as " + userId
+
+			createChild("br", body)
+		}
+	</script>
+</html>

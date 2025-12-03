@@ -1,0 +1,200 @@
+# Use it with the VS Code extension "REST Client"
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+###
+POST http://dev.darwie.com/api/matieres
+
+###
+POST http://localhost:8080/api/matieres
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "cuivre",
+	"famille": "metal",
+	"recyclabilite": 0.99,
+	"consoEau": 41,
+	"coutEnv": 153,
+	"complemMicrofibres": 54,
+	"label": "GOTS",
+	"reference": "CUI-CUI",
+	"scorePEF": 820,
+	"typologieFibre": "naturelle"
+}
+###
+POST http://localhost:8080/api/matieres
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "le coton",
+	"famille": "coton",
+	"recyclabilite": 0.8,
+	"consoEau": 51,
+	"coutEnv": 103,
+	"complemMicrofibres": 2,
+	"label": "GOTS",
+	"reference": "COT-0N",
+	"scorePEF": 80,
+	"typologieFibre": "naturelle"
+}
+###
+GET http://localhost:8080/api/matieres
+X-DARWIE-APIKEY: local-apikey
+
+###
+GET http://localhost:8080/api/matieres/05d24bfe-fa26-4467-9e38-79598dbdd508
+X-DARWIE-APIKEY: local-apikey
+
+###
+DELETE http://localhost:8080/api/matieres/1253d5c5-02de-48aa-a811-2e7a8d607e50
+X-DARWIE-APIKEY: local-apikey
+
+###
+PUT http://localhost:8080/api/matieres/2f890837-0fa5-437c-80f5-016240ffa40b
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "tissus mix gg",
+	"famille": "laine",
+	"matieres": [
+		{"id": "af07e8ab-fb6c-4568-81e6-8db54826845d", "rate": 0.98},
+		{"id": "ce802dbb-6cbc-4eae-b356-a9a9a70fabaf", "rate": 0.02},
+		{"id": "26df06ed-17c6-4c3f-b0eb-0633079a3dd9", "rate": 0.01}
+	]
+}
+
+###
+GET http://localhost:8080/api/matieres
+X-DARWIE-APIKEY: local-apikey
+
+###
+GET http://localhost:8080/api/composants
+X-DARWIE-APIKEY: local-apikey
+
+###
+GET http://localhost:8080/api/composants/ids
+X-DARWIE-APIKEY: local-apikey
+
+###
+laine 7ead259d-a943-4c37-8657-d375d2048d60
+cu 0efdcd2d-2afd-42ef-bec5-fa619ff2dd0a
+
+###
+POST http://localhost:8080/api/composants
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "tissus laine",
+	"type": "etoffe",
+	"matiere": "05d24bfe-fa26-4467-9e38-79598dbdd508",
+	"quantite": 1,
+	"unite": "kg"
+}
+###
+POST http://localhost:8080/api/composants
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "bouton",
+	"type": "accessoire",
+	"matiere": "54f45307-1d26-45f6-8a1d-3bfd5793b9d5",
+	"quantite": 10,
+	"unite": "unit"
+}
+
+
+###
+GET http://localhost:8080/api/composants/24177f1a-ae4f-4491-9708-966727eb9b20
+X-DARWIE-APIKEY: local-apikey
+
+
+###
+tissus ceff8607-615c-49b9-89e9-6af8deab7178
+boutons d59f2861-b64f-4366-a4f4-3663f588e248
+###
+
+###
+GET http://localhost:8080/api/produits
+X-DARWIE-APIKEY: local-apikey
+
+###
+GET http://localhost:8080/api/produits/ids
+X-DARWIE-APIKEY: local-apikey
+
+###
+GET http://localhost:8080/api/produits/87887f78-9ea0-4da1-8194-4c0cc5a890ea
+X-DARWIE-APIKEY: local-apikey
+
+###
+POST http://localhost:8080/api/produits
+X-DARWIE-APIKEY: local-apikey
+content-type: application/json
+
+{
+	"nom": "ze tshirt"
+}
+
+
+### Authentication flow
+POST http://localhost:8081/login
+
+Gg
+
+###
+GET http://localhost:8080/.auth/success?code=34047215-89f6-47a0-85ac-8b8ef34e0946
+
+
+###
+GET http://localhost:8080/api/me
+Cookie: session=899b46d5-a8fb-4c9c-bcb0-8acef49757ae
+
+###
+POST https://ecobalyse.beta.gouv.fr/api/textile/simulator
+Token: tok
+content-type: application/json
+
+{
+  "mass": 0.17,
+  "materials": [
+    {
+      "id": "ei-coton",
+      "share": 1,
+      "country": "FR"
+    }
+  ],
+  "product": "tshirt"
+}
+
+
+
+###
+GET http://localhost:8081/api/responses
+
+###
+GET http://localhost:8081/api/responses/d59fd3e8-479e-4806-9330-907e7f0e620b
+
+###
+DELETE http://localhost:8081/api/responses
+
+###
+POST http://localhost:8081/api/responses
+
+{
+	"endpoint": "GET /toto",
+	"code": 207,
+	"headers": {
+		"Content-Type": ["good"],
+		"X-custom": ["a", "b"]
+	},
+	"body": {"a":1, "b":false, "cd":[1,0,4]}
+}
+
+###
+GET http://localhost:8081/mock/toto
+
+###
+POST http://localhost:8081/mock/ecobalyse/api/textile/simulator

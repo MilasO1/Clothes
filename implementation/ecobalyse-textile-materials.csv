@@ -1,0 +1,23 @@
+Identifiant,Nom,Procédé,Source,Origine,Recyclée ?,Complément Microfibres,Procédé de fabrication du fil,Procédé de recyclage,Origine géographique,Pays de production et de filature par défaut,CFF: Coefficient d'allocation,CFF: Rapport de qualité
+9973088b-c929-4cc5-894a-1e4d28c161d4,Elasthane - Lycra,Elasthane (Lycra),Custom,Matière synthétique,non,-820,Filage,N/A,Asie - Pacifique,Chine,0,0
+49a0bec0-f9f3-42db-a514-a9dcf06a8969,Acrylique,Production de plexiglas (Polyméthacrylate de méthyle),Ecoinvent 3.9.1,Matière synthétique,non,-820,Filage,N/A,Asie - Pacifique,Chine,0,0
+a09b2677-2900-4417-a202-e5f9a1abcce1,Jute,"Production de jute, rouissage",Ecoinvent 3.9.1,Matière naturelle d'origine végétale,non,-250,Filature,N/A,Asie - Pacifique,Chine,0,0
+73ef624d-250e-4a9a-af5d-43505b21b527,Polypropylène,"Production de polypropylène, granulés",Ecoinvent 3.9.1,Matière synthétique,non,-820,Filage,N/A,Europe,France,0,0
+9dba0e95-0c35-4f8b-9267-62ddf47d4984,Polyester,"Production de PET, granulés, amorphe",Ecoinvent 3.9.1,Matière synthétique,non,-820,Filage,"Production de PET recyclé, granulés, amorphe",Asie - Pacifique,Chine,0,0
+8f44c680-1263-4588-b79b-a9e4dc3d8de4,Polyester recyclé,"Production de PET recyclé, granulés, amorphe",Ecoinvent 3.9.1,Matière synthétique,oui,-820,Filage,N/A,Asie - Pacifique,Chine,0.5,1
+c84280ff-e921-4d5c-92d6-51030bf4f74e,Nylon,Production de nylon 6-6,Ecoinvent 3.9.1,Matière synthétique,non,-820,Filage,N/A,Europe,France,0,0
+a52e486c-b67e-40af-8337-e8143cbf9076,Lin,"Production de fibres de lin, rouissage",Ecoinvent 3.9.1,Matière naturelle d'origine végétale,non,-250,Filature,N/A,Europe,France,0,0
+1fc3e17d-5661-429d-a150-7986eae16d9d,Laine par défaut,Laine par défaut,Woolmark,Matière naturelle d'origine animale,non,-390,Filature,N/A,Asie - Pacifique,Chine,0,0
+72e29a61-52a9-4eb5-b3fc-5fb87edea041,Laine nouvelle filière,Laine nouvelle filière,Custom,Matière naturelle d'origine animale,non,-390,Filature,N/A,Asie - Pacifique,Chine,0,0
+62a4d6fb-3276-4ba5-93a3-889ecd3bff84,Coton,Production de fibres de coton,Ecoinvent 3.9.1,Matière naturelle d'origine végétale,non,-250,Filature,Production de coton recyclé (déchets de production),Asie - Pacifique,Chine,0,0
+a1c1c2ec-33b1-49d6-bf8e-139e2eb7f097,Coton biologique,Production de fibres de coton bio,Ecoinvent 3.9.1,Matière naturelle d'origine végétale,non,-250,Filature,N/A,Asie - Pacifique,Chine,0,0
+0c1a4654-b030-4fe1-86b7-d96ce0b85bb8,Chanvre,Production de chanvre,Ecoinvent 3.9.1,Matière naturelle d'origine végétale,non,-250,Filature,N/A,Asie - Pacifique,Chine,0,0
+c087d394-5901-4b03-ba7a-7d4b0db0490c,Viscose,Fibre de viscose,Ecoinvent 3.9.1,Matière artificielle d'origine organique,non,-330,Filature,N/A,Asie - Pacifique,Chine,0,0
+457e9b0d-9eda-4dca-b199-deeb0a154fa9,Coton recyclé - déchets post-consommation,Production de coton recyclé (déchets post-consommation),Custom,Matière naturelle d'origine végétale,oui,-250,Filature,N/A,France,France,0.8,0.5
+d3d20384-88fb-4c75-ac12-c647365ac6c5,Coton recyclé - déchets de production,Production de coton recyclé (déchets de production),Custom,Matière naturelle d'origine végétale,oui,-250,Filature,N/A,Espagne & France,France,0.8,0.5
+custom-acier,Acier,,,Matière synthétique,non,0,,,,,,
+custom-laiton,Laiton,,,Matière synthétique,non,0,,,,,,
+custom-gomme,Gomme,,,Matière naturelle d'origine végétale,non,0,,,,,,
+custom-polyamide,Polyamide,,,Matière synthétique,non,0,,,,,,
+custom-zamak,Zamak,,,Matière synthétique,non,0,,,,,,
+custom-cuir,Cuir,,,Matière naturelle d'origine animale,non,0,,,,,,

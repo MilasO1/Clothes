@@ -1,0 +1,34 @@
+# Bundle the app's client and server
+name: deploy
+
+on:
+  workflow_call:
+    inputs:
+      imageName:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        # Select the branch
+        ref: deploy-dev
+    - run: |
+        echo "New image to publish ${{inputs.imageName}} by ${{github.triggering_actor}}"
+        sed -i -E "s@(image:).*${{github.repository}}.*@\1 ${{inputs.imageName}}@g" compose.yml
+        cat compose.yml
+
+        git config --global user.name "${{github.triggering_actor}}"
+        git config --global user.email "${{github.triggering_actor}}@darwie.com"
+        git config -l
+
+        git add compose.yml
+        git commit -m "[Deployment] Version ${{inputs.version}}"
+        git push

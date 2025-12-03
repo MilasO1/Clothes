@@ -1,0 +1,863 @@
+openapi: 3.1.0
+info:
+  title: Darwie server REST API to manage products
+  version: 1.0.0
+
+servers:
+- url: ../api
+
+paths:
+  /composants:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      summary: Lists all composants data
+      tags:
+      - composants
+      x-oav-handler: api.GetComposants
+
+    post:
+      summary: Creates a new composant
+      requestBody:
+        description: The proto composant
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComposantCreation"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComposantId"
+      tags:
+      - composants
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PostComposant
+
+  /composants/ids:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ComposantId"
+      summary: Lists all composants IDs
+      tags:
+      - composants
+      x-oav-handler: api.GetComposantsIds
+
+  /composants/{composantId}:
+    get:
+      parameters:
+      - in: path
+        name: composantId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ComposantId"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not found
+      summary: Gets a composant details
+      tags:
+      - composants
+      x-oav-handler: api.GetOneComposant
+
+    delete:
+      parameters:
+      - in: path
+        name: composantId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ComposantId"
+      responses:
+        "204":
+          description: The ref was deleted
+        "404":
+          description: Not found
+      summary: Deletes a composant
+      tags:
+      - composants
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.DeleteComposant
+
+    put:
+      summary: Updates an existing composant
+      parameters:
+      - in: path
+        name: composantId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ComposantId"
+      requestBody:
+        description: The proto composant
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComposantProto"
+      responses:
+        "204":
+          description: The resource was updated
+        "404":
+          description: Not found
+      tags:
+      - composants
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PutComposant
+
+  /matieres:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      summary: Lists all matieres data
+      tags:
+      - matieres
+      x-oav-handler: api.GetMatieres
+
+    post:
+      requestBody:
+        description: The proto matiere
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatiereCreation"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MatiereId"
+      summary: Creates a new matiere
+      tags:
+      - matieres
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PostMatiere
+
+  /matieres/ids:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MatiereId"
+      summary: Lists all matieres IDs
+      tags:
+      - matieres
+      x-oav-handler: api.GetMatieresIds
+
+  /matieres/{matiereId}:
+    get:
+      parameters:
+      - in: path
+        name: matiereId
+        required: true
+        schema:
+          $ref: "#/components/schemas/MatiereId"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not found
+      summary: Gets a matiere details
+      tags:
+      - matieres
+      x-oav-handler: api.GetOneMatiere
+
+    delete:
+      parameters:
+      - in: path
+        name: matiereId
+        required: true
+        schema:
+          $ref: "#/components/schemas/MatiereId"
+      responses:
+        "204":
+          description: The resource was deleted
+        "404":
+          description: Not found
+        "409":
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  composants:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ComposantId"
+                  matieres:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MatiereId"
+                  produits:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProduitId"
+      summary: Deletes a matiere
+      tags:
+      - matieres
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.DeleteMatiere
+
+    put:
+      summary: Updates an existing matiere
+      parameters:
+      - in: path
+        name: matiereId
+        required: true
+        schema:
+          $ref: "#/components/schemas/MatiereId"
+      requestBody:
+        description: The proto matiere
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatiereProto"
+      responses:
+        "204":
+          description: The resource was updated
+        "404":
+          description: Not found
+      tags:
+      - matieres
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PutMatiere
+
+  /procedes:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      summary: Lists all procedes data
+      tags:
+      - procedes
+      x-oav-handler: api.GetProcedes
+
+    post:
+      summary: Creates a new procede
+      requestBody:
+        description: The proto procede
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProcedeCreation"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcedeId"
+      tags:
+      - procedes
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PostProcede
+
+  /procedes/ids:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProcedeId"
+      summary: Lists all procedes IDs
+      tags:
+      - procedes
+      x-oav-handler: api.GetProcedesIds
+
+  /procedes/{procedeId}:
+    get:
+      parameters:
+      - in: path
+        name: procedeId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProcedeId"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not found
+      summary: Gets a procede details
+      tags:
+      - procedes
+      x-oav-handler: api.GetOneProcede
+
+    delete:
+      parameters:
+      - in: path
+        name: procedeId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProcedeId"
+      responses:
+        "204":
+          description: The ref was deleted
+        "404":
+          description: Not found
+      summary: Deletes a procede
+      tags:
+      - procedes
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.DeleteProcede
+
+    put:
+      summary: Updates an existing procede
+      parameters:
+      - in: path
+        name: procedeId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProcedeId"
+      requestBody:
+        description: The proto procede
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProcedeProto"
+      responses:
+        "204":
+          description: The resource was updated
+        "404":
+          description: Not found
+      tags:
+      - procedes
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PutProcede
+
+  /produits:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProduitRetrieval"
+      summary: Lists all produits data
+      tags:
+      - produits
+      x-oav-handler: api.GetProduits
+
+    post:
+      summary: Creates a new produit
+      requestBody:
+        description: The proto produit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProduitCreation"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProduitId"
+      tags:
+      - produits
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PostProduit
+
+  /produits/ids:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProduitId"
+      summary: Lists all produits IDs
+      tags:
+      - produits
+      x-oav-handler: api.GetProduitsIds
+
+  /produits/{produitId}:
+    get:
+      parameters:
+      - in: path
+        name: produitId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProduitId"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not found
+      summary: Gets a produit details
+      tags:
+      - produits
+      x-oav-handler: api.GetOneProduit
+
+    delete:
+      parameters:
+      - in: path
+        name: produitId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProduitId"
+      responses:
+        "204":
+          description: The ref was deleted
+        "404":
+          description: Not found
+      summary: Deletes a produit
+      tags:
+      - produits
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.DeleteProduit
+
+    put:
+      summary: Updates an existing produit
+      parameters:
+      - in: path
+        name: produitId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProduitId"
+      requestBody:
+        description: The proto produit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProduitProto"
+      responses:
+        "204":
+          description: The resource was updated
+        "404":
+          description: Not found
+      tags:
+      - produits
+      security:
+      - userAuth: [writer]
+      x-oav-handler: api.PutProduit
+
+  /produits/{produitId}/impact:
+    post:
+      summary: Calls Ecobalyse API to assess the produit's impacts
+      parameters:
+      - in: path
+        name: produitId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProduitId"
+      requestBody:
+        description: The country codes of the related matieres & procedes
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                matieres:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        $ref: "#/components/schemas/MatiereId"
+                      country:
+                        $ref: "#/components/schemas/ShortText"
+                    additionalProperties: false
+                    required: [id, country]
+                procedes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        $ref: "#/components/schemas/ProcedeType"
+                      country:
+                        $ref: "#/components/schemas/ShortText"
+                    additionalProperties: false
+                    required: [type, country]
+                airTransportRatio:
+                  $ref: "#/components/schemas/Rate"
+              additionalProperties: false
+              
+      responses:
+        "200":
+          description: The impact was computed
+        "424":
+          description: Ecobalyse call error
+        "404":
+          description: Not found
+      tags:
+      - produits
+      security:
+      - userAuth: [reader]
+      x-oav-handler: api.PostProduitImpact
+
+  /produits/{produitId}/pure-matieres:
+    get:
+      parameters:
+      - in: path
+        name: produitId
+        required: true
+        schema:
+          $ref: "#/components/schemas/ProduitId"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not found
+      summary: Gets a produit pure base matieres and their rate
+      tags:
+      - produits
+      security:
+      - userAuth: [reader]
+      x-oav-handler: api.GetProduitPureMatieres
+
+  /me:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - userAuth: []
+      summary: Get the user profile
+      tags:
+      - general
+      x-oav-handler: api.GetProfile
+
+  /version:
+    get:
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+      - userAuth: []
+      summary: Get the software version
+      tags:
+      - general
+      x-oav-handler: api.GetVersion
+
+security:
+- userAuth: [reader]
+
+components:
+  schemas:
+
+    ComposantId:
+      type: string
+      format: uuid
+
+    ComposantProto: &ComposantProto
+      type: object
+      properties:
+        nom:
+          $ref: "#/components/schemas/ShortText"
+          example: rivet en laiton
+        reference:
+          example: "h-1234"
+          $ref: "#/components/schemas/ShortText"
+        type:
+          $ref: "#/components/schemas/ComposantType"
+        matiere:
+          $ref: "#/components/schemas/MatiereId"
+        procedes:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProcedeId"
+        prixUnitaire:
+          $ref: "#/components/schemas/BoundedPositive"
+          example: 1.27
+        monnaie:
+          $ref: "#/components/schemas/Currency"
+        masseUnitaire:
+          description: Masse en kg de 1 unité choisie (pièce, m², yard, ...)
+          $ref: "#/components/schemas/BoundedPositive"
+          example: 3.14
+        unite:
+          description: Selon la façon de consommer ce composant; selection par pièce, découpe au m²/yard de rouleau, ...
+          $ref: "#/components/schemas/Unit"
+      additionalProperties: false
+    
+    ComposantCreation:
+      << : *ComposantProto
+      required: [nom, matiere, type, masseUnitaire, unite]
+
+    ComposantType:
+      type: string
+      enum:
+      - etoffe
+      - accessoire # boutton, zip, ...
+      - impression-broderie
+      - etiquette
+
+    Currency:
+      type: string
+      enum:
+      - "€"
+      - "$"
+
+    MatiereProto: &MatiereProto
+      type: object
+      properties:
+        nom:
+          example: coton naturel
+          $ref: "#/components/schemas/ShortText"
+        consoEau:
+          description: In L of water per kg of material
+          $ref: "#/components/schemas/BoundedPositive"
+        coutEnv:
+          $ref: "#/components/schemas/BoundedPositive"
+        complemMicrofibres:
+          $ref: "#/components/schemas/BoundedPositive"
+        famille:
+          $ref: "#/components/schemas/MatiereFamille"
+        idEcobalyse:
+          example: ei-coton
+          $ref: "#/components/schemas/ShortText"
+        label:
+          $ref: "#/components/schemas/ShortText"
+          example: "GOTS"
+        matieres:
+          description: Associate the fraction of other matieres, provide valid matiere UUIDs
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: "#/components/schemas/MatiereId"
+              rate:
+                $ref: "#/components/schemas/Rate"
+            additionalProperties: false
+            required: [id, rate]
+          maxItems: 10
+        recyclabilite:
+          $ref: "#/components/schemas/Rate"
+        recyclee:
+          type: boolean
+        reference:
+          description: Used to map it to the customers' DB
+          $ref: "#/components/schemas/ShortText"
+          example: "MAT-001"
+        scorePEF:
+          description: Product Environmental Footprint (µPt PEF)
+          $ref: "#/components/schemas/BoundedPositive"
+        typesComposant:
+          description: To filter the available matters when creating a component
+          type: array
+          items:
+            $ref: "#/components/schemas/ComposantType"
+        typologieFibre:
+          $ref: "#/components/schemas/MatiereTypologie"
+      additionalProperties: false
+
+    MatiereCreation:
+      << : *MatiereProto
+      required: [nom]
+
+    MatiereId:
+      description: Matiere UUID
+      type: string
+      format: uuid
+      example: f6dfda38-8c58-4b07-9e51-527faf695dgg
+
+    MatiereFamille:
+      type: string
+      enum:
+      - chanvre
+      - coton
+      - cuir
+      - elasthane
+      - gomme
+      - jute
+      - laine
+      - lin
+      - melange-matieres
+      - metal
+      - plastique
+      - polyester
+      - soie
+      - viscose
+
+    MatiereTypologie:
+      type: string
+      enum:
+      - artificielle
+      - naturelle
+      - synthetique
+      - mix
+
+    ProcedeId:
+      type: string
+      format: uuid
+
+    ProcedeType:
+      type: string
+      enum:
+      - teinture
+      - tissage-tricotage
+      - confection
+      - filature
+
+    ProcedeProto: &ProcedeProto
+      type: object
+      properties:
+        type:
+          $ref: "#/components/schemas/ProcedeType"
+      additionalProperties: false
+    
+    ProcedeCreation:
+      << : *ProcedeProto
+      required: [type]
+
+
+    ProduitId:
+      type: string
+      format: uuid
+
+    ProduitProto: &ProduitProto
+      type: object
+      properties: &ProduitProto-props
+        nom:
+          example: "tshirt en laine"
+          $ref: "#/components/schemas/ShortText"
+        reference:
+          example: "h-1234"
+          $ref: "#/components/schemas/ShortText"
+        type:
+          example: "tshirt"
+          $ref: "#/components/schemas/ShortText"
+        bom:
+          example: "bom.txt"
+          $ref: "#/components/schemas/ShortText"
+        compositions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProduitComposition"
+          minItems: 1
+          maxItems: 50
+      additionalProperties: false
+    
+    ProduitCreation:
+      << : *ProduitProto
+      required: [nom, type, compositions]
+
+    ProduitRetrieval:
+      <<: *ProduitProto
+      properties:
+        <<: *ProduitProto-props
+        circularite:
+          type: object
+
+    ProduitComposition:
+      type: object
+      properties:
+        composantId:
+          $ref: "#/components/schemas/ComposantId"
+        nombre:
+          description: Nombre & Unité définissent la "quantité"
+          $ref: "#/components/schemas/BoundedPositive"
+        unite:
+          $ref: "#/components/schemas/Unit"
+      additionalProperties: false
+      required: [composantId, nombre, unite]
+
+    ShortText:
+      type: string
+      pattern: '^[\w \-,\.àéèùâêîôûëïü%]{0,50}$'
+
+    BoundedPositive:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 100000
+
+    Rate:
+      type: number
+      format: double
+      minimum: 0
+      maximum: 1
+      example: 0.27
+
+    Unit:
+      type: string
+      enum:
+      - kg
+      - g
+      - m²
+      - cm²
+      - m-140 # Metre lineraire avec laize utile de 140 cm
+      - m-135 # Metre lineraire avec laize utile de 135 cm
+      - yard
+      - piece
+
+
+  securitySchemes:
+    userAuth: # Custom
+      type: apiKey
+      in: cookie
+      name: session

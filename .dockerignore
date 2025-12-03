@@ -1,0 +1,19 @@
+Dockerfile*
+compose.yml
+.eslintrc
+*.md
+**/.git
+local-db-data
+apiConverter
+mock-server
+implementation
+
+# Generated files
+client/dist
+client/node_modules
+
+server/test
+server/backend
+
+**/*.test.*
+**/*_test.*

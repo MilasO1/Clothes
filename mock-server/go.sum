@@ -1,0 +1,4 @@
+github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
+github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+gitlab.com/ggpack/logchain-go/v2 v2.0.0 h1:CudqDAS0q38yA6DGrfDK/lbmJXavx9S1Of4VKVeYUF8=
+gitlab.com/ggpack/logchain-go/v2 v2.0.0/go.mod h1:3mlR9XUEdGP4WAiwA8pymtafO1zguAbh7W/oi3L/o7A=

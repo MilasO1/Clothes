@@ -1,0 +1,13 @@
+*.bak
+
+# Generated files
+node_modules
+server/backend
+server/test/*.test.http
+
+logs/*.log
+*.env
+dist
+
+openapi-validation-go
+nomenclature-custom*

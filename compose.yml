@@ -1,0 +1,96 @@
+x-backend: &backend
+    env_file: # Container env vars
+    - .env
+    ports:
+    - "8080:8080"
+    depends_on:
+     database:
+       condition: service_healthy
+
+services:
+  backend-api-tests:
+    profiles: ["api-tests"]
+    <<: *backend
+    image: ${imageName}
+    environment:
+    - DEV_MODE=false
+  
+  backend-local:
+    profiles: ["local"]
+    <<: *backend
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    develop:
+      watch:
+      - action: sync+restart
+        path: ./server
+        target: /app
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api/version"]
+      interval: 1s
+      timeout: 2s
+      retries: 50
+
+  client-dev-server:
+    profiles: ["local"]
+    image: oven/bun:1.3.0
+    command: bun start --host
+    ports:
+    - "3000:3000"
+    user: "${UID}:${UID}"
+    volumes:
+    - ./client:/app
+    working_dir: /app
+
+  database:
+    image: mongo:8.0.12
+    command: ["mongod", "--quiet", "--logpath", "/dev/null"]
+    env_file:
+    - .env
+    volumes:
+    - target: /data/db
+      type: tmpfs
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 4s
+      timeout: 3s
+      retries: 25
+    attach: false # Separate logs
+
+  mock:
+    image: golang:1.25-alpine
+    command: go run .
+    env_file:
+    - .env
+    ports:
+    - "8081:8081"
+    volumes:
+    - ./mock-server:/app
+    working_dir: /app
+
+  mongo-express:
+    profiles: ["dbg"]
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://$MONGO_INITDB_ROOT_USERNAME:$MONGO_INITDB_ROOT_PASSWORD@database:27017/$MONGO_INITDB_DATABASE?authSource=admin
+      ME_CONFIG_BASICAUTH_ENABLED: false
+      #admin:pass
+    ports:
+    - "8082:8081"
+    depends_on:
+     database:
+       condition: service_healthy
+
+  implem-data:
+    profiles: ["local"]
+    image: oven/bun:1.3.0
+    entrypoint: ["bun", "populate-resources.js", "local"]
+    environment:
+      BACKEND_URL: http://backend-local:8080
+    volumes:
+    - ./implementation:/app
+    working_dir: /app
+    depends_on:
+      backend-local:
+        condition: service_healthy

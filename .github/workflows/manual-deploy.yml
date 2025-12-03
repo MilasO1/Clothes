@@ -1,0 +1,16 @@
+# Bundle the app's client and server
+name: manual-deploy
+on: workflow_dispatch
+
+jobs:
+  versioning:
+    uses: gg-math/actions/.github/workflows/versioning.yml@master
+
+  manual-deploy:
+    needs: versioning
+    permissions:
+      contents: write
+    uses: ./.github/workflows/deploy.yml
+    with:
+      imageName: ${{needs.versioning.outputs.imageName}}
+      version: ${{needs.versioning.outputs.version}}

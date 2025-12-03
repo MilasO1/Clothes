@@ -1,0 +1,7 @@
+{
+  "name": "implementation",
+  "type": "module",
+  "dependencies": {
+    "csv-parser": "3.2.0"
+  }
+}

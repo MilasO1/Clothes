@@ -1,0 +1,1477 @@
+{
+	"components": {
+		"schemas": {
+			"BoundedPositive": {
+				"format": "double",
+				"maximum": 100000,
+				"minimum": 0,
+				"type": "number"
+			},
+			"ComposantCreation": {
+				"additionalProperties": false,
+				"properties": {
+					"masseUnitaire": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "Masse en kg de 1 unité choisie (pièce, m², yard, ...)",
+						"example": 3.14
+					},
+					"matiere": {
+						"$ref": "#/components/schemas/MatiereId"
+					},
+					"monnaie": {
+						"$ref": "#/components/schemas/Currency"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "rivet en laiton"
+					},
+					"prixUnitaire": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"example": 1.27
+					},
+					"procedes": {
+						"items": {
+							"$ref": "#/components/schemas/ProcedeId"
+						},
+						"type": "array"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "h-1234"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ComposantType"
+					},
+					"unite": {
+						"$ref": "#/components/schemas/Unit",
+						"description": "Selon la façon de consommer ce composant; selection par pièce, découpe au m²/yard de rouleau, ..."
+					}
+				},
+				"required": [
+					"nom",
+					"matiere",
+					"type",
+					"masseUnitaire",
+					"unite"
+				],
+				"type": "object"
+			},
+			"ComposantId": {
+				"format": "uuid",
+				"type": "string"
+			},
+			"ComposantProto": {
+				"additionalProperties": false,
+				"properties": {
+					"masseUnitaire": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "Masse en kg de 1 unité choisie (pièce, m², yard, ...)",
+						"example": 3.14
+					},
+					"matiere": {
+						"$ref": "#/components/schemas/MatiereId"
+					},
+					"monnaie": {
+						"$ref": "#/components/schemas/Currency"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "rivet en laiton"
+					},
+					"prixUnitaire": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"example": 1.27
+					},
+					"procedes": {
+						"items": {
+							"$ref": "#/components/schemas/ProcedeId"
+						},
+						"type": "array"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "h-1234"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ComposantType"
+					},
+					"unite": {
+						"$ref": "#/components/schemas/Unit",
+						"description": "Selon la façon de consommer ce composant; selection par pièce, découpe au m²/yard de rouleau, ..."
+					}
+				},
+				"type": "object"
+			},
+			"ComposantType": {
+				"enum": [
+					"etoffe",
+					"accessoire",
+					"impression-broderie",
+					"etiquette"
+				],
+				"type": "string"
+			},
+			"Currency": {
+				"enum": [
+					"€",
+					"$"
+				],
+				"type": "string"
+			},
+			"MatiereCreation": {
+				"additionalProperties": false,
+				"properties": {
+					"complemMicrofibres": {
+						"$ref": "#/components/schemas/BoundedPositive"
+					},
+					"consoEau": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "In L of water per kg of material"
+					},
+					"coutEnv": {
+						"$ref": "#/components/schemas/BoundedPositive"
+					},
+					"famille": {
+						"$ref": "#/components/schemas/MatiereFamille"
+					},
+					"idEcobalyse": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "ei-coton"
+					},
+					"label": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "GOTS"
+					},
+					"matieres": {
+						"description": "Associate the fraction of other matieres, provide valid matiere UUIDs",
+						"items": {
+							"additionalProperties": false,
+							"properties": {
+								"id": {
+									"$ref": "#/components/schemas/MatiereId"
+								},
+								"rate": {
+									"$ref": "#/components/schemas/Rate"
+								}
+							},
+							"required": [
+								"id",
+								"rate"
+							],
+							"type": "object"
+						},
+						"maxItems": 10,
+						"type": "array"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "coton naturel"
+					},
+					"recyclabilite": {
+						"$ref": "#/components/schemas/Rate"
+					},
+					"recyclee": {
+						"type": "boolean"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"description": "Used to map it to the customers' DB",
+						"example": "MAT-001"
+					},
+					"scorePEF": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "Product Environmental Footprint (µPt PEF)"
+					},
+					"typesComposant": {
+						"description": "To filter the available matters when creating a component",
+						"items": {
+							"$ref": "#/components/schemas/ComposantType"
+						},
+						"type": "array"
+					},
+					"typologieFibre": {
+						"$ref": "#/components/schemas/MatiereTypologie"
+					}
+				},
+				"required": [
+					"nom"
+				],
+				"type": "object"
+			},
+			"MatiereFamille": {
+				"enum": [
+					"chanvre",
+					"coton",
+					"cuir",
+					"elasthane",
+					"gomme",
+					"jute",
+					"laine",
+					"lin",
+					"melange-matieres",
+					"metal",
+					"plastique",
+					"polyester",
+					"soie",
+					"viscose"
+				],
+				"type": "string"
+			},
+			"MatiereId": {
+				"description": "Matiere UUID",
+				"example": "f6dfda38-8c58-4b07-9e51-527faf695dgg",
+				"format": "uuid",
+				"type": "string"
+			},
+			"MatiereProto": {
+				"additionalProperties": false,
+				"properties": {
+					"complemMicrofibres": {
+						"$ref": "#/components/schemas/BoundedPositive"
+					},
+					"consoEau": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "In L of water per kg of material"
+					},
+					"coutEnv": {
+						"$ref": "#/components/schemas/BoundedPositive"
+					},
+					"famille": {
+						"$ref": "#/components/schemas/MatiereFamille"
+					},
+					"idEcobalyse": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "ei-coton"
+					},
+					"label": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "GOTS"
+					},
+					"matieres": {
+						"description": "Associate the fraction of other matieres, provide valid matiere UUIDs",
+						"items": {
+							"additionalProperties": false,
+							"properties": {
+								"id": {
+									"$ref": "#/components/schemas/MatiereId"
+								},
+								"rate": {
+									"$ref": "#/components/schemas/Rate"
+								}
+							},
+							"required": [
+								"id",
+								"rate"
+							],
+							"type": "object"
+						},
+						"maxItems": 10,
+						"type": "array"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "coton naturel"
+					},
+					"recyclabilite": {
+						"$ref": "#/components/schemas/Rate"
+					},
+					"recyclee": {
+						"type": "boolean"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"description": "Used to map it to the customers' DB",
+						"example": "MAT-001"
+					},
+					"scorePEF": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "Product Environmental Footprint (µPt PEF)"
+					},
+					"typesComposant": {
+						"description": "To filter the available matters when creating a component",
+						"items": {
+							"$ref": "#/components/schemas/ComposantType"
+						},
+						"type": "array"
+					},
+					"typologieFibre": {
+						"$ref": "#/components/schemas/MatiereTypologie"
+					}
+				},
+				"type": "object"
+			},
+			"MatiereTypologie": {
+				"enum": [
+					"artificielle",
+					"naturelle",
+					"synthetique",
+					"mix"
+				],
+				"type": "string"
+			},
+			"ProcedeCreation": {
+				"additionalProperties": false,
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/ProcedeType"
+					}
+				},
+				"required": [
+					"type"
+				],
+				"type": "object"
+			},
+			"ProcedeId": {
+				"format": "uuid",
+				"type": "string"
+			},
+			"ProcedeProto": {
+				"additionalProperties": false,
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/ProcedeType"
+					}
+				},
+				"type": "object"
+			},
+			"ProcedeType": {
+				"enum": [
+					"teinture",
+					"tissage-tricotage",
+					"confection",
+					"filature"
+				],
+				"type": "string"
+			},
+			"ProduitComposition": {
+				"additionalProperties": false,
+				"properties": {
+					"composantId": {
+						"$ref": "#/components/schemas/ComposantId"
+					},
+					"nombre": {
+						"$ref": "#/components/schemas/BoundedPositive",
+						"description": "Nombre \u0026 Unité définissent la \"quantité\""
+					},
+					"unite": {
+						"$ref": "#/components/schemas/Unit"
+					}
+				},
+				"required": [
+					"composantId",
+					"nombre",
+					"unite"
+				],
+				"type": "object"
+			},
+			"ProduitCreation": {
+				"additionalProperties": false,
+				"properties": {
+					"bom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "bom.txt"
+					},
+					"compositions": {
+						"items": {
+							"$ref": "#/components/schemas/ProduitComposition"
+						},
+						"maxItems": 50,
+						"minItems": 1,
+						"type": "array"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt en laine"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "h-1234"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt"
+					}
+				},
+				"required": [
+					"nom",
+					"type",
+					"compositions"
+				],
+				"type": "object"
+			},
+			"ProduitId": {
+				"format": "uuid",
+				"type": "string"
+			},
+			"ProduitProto": {
+				"additionalProperties": false,
+				"properties": {
+					"bom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "bom.txt"
+					},
+					"compositions": {
+						"items": {
+							"$ref": "#/components/schemas/ProduitComposition"
+						},
+						"maxItems": 50,
+						"minItems": 1,
+						"type": "array"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt en laine"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "h-1234"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt"
+					}
+				},
+				"type": "object"
+			},
+			"ProduitRetrieval": {
+				"additionalProperties": false,
+				"properties": {
+					"bom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "bom.txt"
+					},
+					"circularite": {
+						"type": "object"
+					},
+					"compositions": {
+						"items": {
+							"$ref": "#/components/schemas/ProduitComposition"
+						},
+						"maxItems": 50,
+						"minItems": 1,
+						"type": "array"
+					},
+					"nom": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt en laine"
+					},
+					"reference": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "h-1234"
+					},
+					"type": {
+						"$ref": "#/components/schemas/ShortText",
+						"example": "tshirt"
+					}
+				},
+				"type": "object"
+			},
+			"Rate": {
+				"example": 0.27,
+				"format": "double",
+				"maximum": 1,
+				"minimum": 0,
+				"type": "number"
+			},
+			"ShortText": {
+				"pattern": "^[\\w \\-,\\.àéèùâêîôûëïü%]{0,50}$",
+				"type": "string"
+			},
+			"Unit": {
+				"enum": [
+					"kg",
+					"g",
+					"m²",
+					"cm²",
+					"m-140",
+					"m-135",
+					"yard",
+					"piece"
+				],
+				"type": "string"
+			}
+		},
+		"securitySchemes": {
+			"userAuth": {
+				"in": "cookie",
+				"name": "session",
+				"type": "apiKey"
+			}
+		}
+	},
+	"info": {
+		"title": "Darwie server REST API to manage products",
+		"version": "1.0.0"
+	},
+	"openapi": "3.1.0",
+	"paths": {
+		"/composants": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all composants data",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.GetComposants"
+			},
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ComposantCreation"
+							}
+						}
+					},
+					"description": "The proto composant",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ComposantId"
+								}
+							}
+						},
+						"description": "Created"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Creates a new composant",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.PostComposant"
+			}
+		},
+		"/composants/ids": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ComposantId"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all composants IDs",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.GetComposantsIds"
+			}
+		},
+		"/composants/{composantId}": {
+			"delete": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "composantId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ComposantId"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The ref was deleted"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Deletes a composant",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.DeleteComposant"
+			},
+			"get": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "composantId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ComposantId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"summary": "Gets a composant details",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.GetOneComposant"
+			},
+			"put": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "composantId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ComposantId"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ComposantProto"
+							}
+						}
+					},
+					"description": "The proto composant",
+					"required": true
+				},
+				"responses": {
+					"204": {
+						"description": "The resource was updated"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Updates an existing composant",
+				"tags": [
+					"composants"
+				],
+				"x-oav-handler": "api.PutComposant"
+			}
+		},
+		"/matieres": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all matieres data",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.GetMatieres"
+			},
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MatiereCreation"
+							}
+						}
+					},
+					"description": "The proto matiere",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MatiereId"
+								}
+							}
+						},
+						"description": "Created"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Creates a new matiere",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.PostMatiere"
+			}
+		},
+		"/matieres/ids": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/MatiereId"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all matieres IDs",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.GetMatieresIds"
+			}
+		},
+		"/matieres/{matiereId}": {
+			"delete": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "matiereId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/MatiereId"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The resource was deleted"
+					},
+					"404": {
+						"description": "Not found"
+					},
+					"409": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"composants": {
+											"items": {
+												"$ref": "#/components/schemas/ComposantId"
+											},
+											"type": "array"
+										},
+										"matieres": {
+											"items": {
+												"$ref": "#/components/schemas/MatiereId"
+											},
+											"type": "array"
+										},
+										"produits": {
+											"items": {
+												"$ref": "#/components/schemas/ProduitId"
+											},
+											"type": "array"
+										}
+									},
+									"type": "object"
+								}
+							}
+						},
+						"description": "Conflict"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Deletes a matiere",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.DeleteMatiere"
+			},
+			"get": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "matiereId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/MatiereId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"summary": "Gets a matiere details",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.GetOneMatiere"
+			},
+			"put": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "matiereId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/MatiereId"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MatiereProto"
+							}
+						}
+					},
+					"description": "The proto matiere",
+					"required": true
+				},
+				"responses": {
+					"204": {
+						"description": "The resource was updated"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Updates an existing matiere",
+				"tags": [
+					"matieres"
+				],
+				"x-oav-handler": "api.PutMatiere"
+			}
+		},
+		"/me": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"security": [
+					{
+						"userAuth": []
+					}
+				],
+				"summary": "Get the user profile",
+				"tags": [
+					"general"
+				],
+				"x-oav-handler": "api.GetProfile"
+			}
+		},
+		"/procedes": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"type": "object"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all procedes data",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.GetProcedes"
+			},
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProcedeCreation"
+							}
+						}
+					},
+					"description": "The proto procede",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProcedeId"
+								}
+							}
+						},
+						"description": "Created"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Creates a new procede",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.PostProcede"
+			}
+		},
+		"/procedes/ids": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProcedeId"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all procedes IDs",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.GetProcedesIds"
+			}
+		},
+		"/procedes/{procedeId}": {
+			"delete": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "procedeId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProcedeId"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The ref was deleted"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Deletes a procede",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.DeleteProcede"
+			},
+			"get": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "procedeId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProcedeId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"summary": "Gets a procede details",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.GetOneProcede"
+			},
+			"put": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "procedeId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProcedeId"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProcedeProto"
+							}
+						}
+					},
+					"description": "The proto procede",
+					"required": true
+				},
+				"responses": {
+					"204": {
+						"description": "The resource was updated"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Updates an existing procede",
+				"tags": [
+					"procedes"
+				],
+				"x-oav-handler": "api.PutProcede"
+			}
+		},
+		"/produits": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProduitRetrieval"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all produits data",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.GetProduits"
+			},
+			"post": {
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProduitCreation"
+							}
+						}
+					},
+					"description": "The proto produit",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProduitId"
+								}
+							}
+						},
+						"description": "Created"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Creates a new produit",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.PostProduit"
+			}
+		},
+		"/produits/ids": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProduitId"
+									},
+									"type": "array"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"summary": "Lists all produits IDs",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.GetProduitsIds"
+			}
+		},
+		"/produits/{produitId}": {
+			"delete": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "produitId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProduitId"
+						}
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "The ref was deleted"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Deletes a produit",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.DeleteProduit"
+			},
+			"get": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "produitId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProduitId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"summary": "Gets a produit details",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.GetOneProduit"
+			},
+			"put": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "produitId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProduitId"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ProduitProto"
+							}
+						}
+					},
+					"description": "The proto produit",
+					"required": true
+				},
+				"responses": {
+					"204": {
+						"description": "The resource was updated"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"writer"
+						]
+					}
+				],
+				"summary": "Updates an existing produit",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.PutProduit"
+			}
+		},
+		"/produits/{produitId}/impact": {
+			"post": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "produitId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProduitId"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"additionalProperties": false,
+								"properties": {
+									"airTransportRatio": {
+										"$ref": "#/components/schemas/Rate"
+									},
+									"matieres": {
+										"items": {
+											"additionalProperties": false,
+											"properties": {
+												"country": {
+													"$ref": "#/components/schemas/ShortText"
+												},
+												"id": {
+													"$ref": "#/components/schemas/MatiereId"
+												}
+											},
+											"required": [
+												"id",
+												"country"
+											],
+											"type": "object"
+										},
+										"type": "array"
+									},
+									"procedes": {
+										"items": {
+											"additionalProperties": false,
+											"properties": {
+												"country": {
+													"$ref": "#/components/schemas/ShortText"
+												},
+												"type": {
+													"$ref": "#/components/schemas/ProcedeType"
+												}
+											},
+											"required": [
+												"type",
+												"country"
+											],
+											"type": "object"
+										},
+										"type": "array"
+									}
+								},
+								"type": "object"
+							}
+						}
+					},
+					"description": "The country codes of the related matieres \u0026 procedes",
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "The impact was computed"
+					},
+					"404": {
+						"description": "Not found"
+					},
+					"424": {
+						"description": "Ecobalyse call error"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"reader"
+						]
+					}
+				],
+				"summary": "Calls Ecobalyse API to assess the produit's impacts",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.PostProduitImpact"
+			}
+		},
+		"/produits/{produitId}/pure-matieres": {
+			"get": {
+				"parameters": [
+					{
+						"in": "path",
+						"name": "produitId",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/ProduitId"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"404": {
+						"description": "Not found"
+					}
+				},
+				"security": [
+					{
+						"userAuth": [
+							"reader"
+						]
+					}
+				],
+				"summary": "Gets a produit pure base matieres and their rate",
+				"tags": [
+					"produits"
+				],
+				"x-oav-handler": "api.GetProduitPureMatieres"
+			}
+		},
+		"/version": {
+			"get": {
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						},
+						"description": "Success"
+					}
+				},
+				"security": [
+					{
+						"userAuth": []
+					}
+				],
+				"summary": "Get the software version",
+				"tags": [
+					"general"
+				],
+				"x-oav-handler": "api.GetVersion"
+			}
+		}
+	},
+	"security": [
+		{
+			"userAuth": [
+				"reader"
+			]
+		}
+	],
+	"servers": [
+		{
+			"url": "../api"
+		}
+	]
+}

@@ -1,0 +1,7 @@
+FROM golang:1.25-alpine AS server
+WORKDIR /app
+COPY server/go.* .
+RUN go mod download
+COPY server .
+EXPOSE 8080
+CMD ["go", "run", "."]

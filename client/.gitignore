@@ -1,0 +1,7 @@
+node_modules
+routeTree.gen.ts
+client/public/main.js
+client/public/service-worker.js
+client/public/*.map
+dist
+report.json
